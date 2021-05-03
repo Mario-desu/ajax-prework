@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Working with XML</title>
+</head>
+<body>
+   <h1>Albums</h1>
+   <button type="button"   onclick="loadData()">Get my album collection</button>
+   <br>
+   <br>
+   <table id = "content">
+      
+   </table>
+   <script>
+   function loadData() {
+       var  xhttp = new XMLHttpRequest();
+       xhttp.onload = function() {
+            if (this.status == 200) {
+               myFunction( this);
+           }
+       };
+       xhttp.open("GET" , "discography.xml", true);
+       xhttp.send();
+   }
+    function myFunction(xml) {
+       let xmlDoc = xml.responseXML;
+        let x = xmlDoc.getElementsByTagName("album"); //this will create an array with all albums
+       let content=document.getElementById( "content");//we save the div#content in a variable
+        for (let i = 0; i < x.length; i++) {
+           content.innerHTML +=   //within the content div, we want to show the following:
+               "<td>" +
+               x[i].getElementsByTagName("artist")[ 0].childNodes[0].nodeValue  + "</td>"  +
+               "<th>"  + x[i].getElementsByTagName("title")[ 0].childNodes[0].nodeValue + "</th>"  +
+               "<th>" + x[i].getElementsByTagName("description" )[0].childNodes[0].nodeValue + "</th> "               
+       }
+   }
+   </script>
+</body>
+</html>
